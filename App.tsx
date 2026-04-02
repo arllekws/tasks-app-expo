@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Platform, StatusBar as RNStatusBar, Image, Button, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Platform, StatusBar as RNStatusBar, Image, Pressable, ActivityIndicator } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import TaskList from './src/components/TaskList';
 import { addTask, deleteTask, getAllTasks, updateTask, TaskItem } from './src/utils/handle-api';
@@ -60,11 +60,15 @@ export default function App() {
         </View>
 
         <View style={styles.nativeButtonContainer}>
-          <Button 
-            title="Excluir todas as tarefas" 
-            color="#d9534f" 
+          <Pressable 
+            style={({ pressed }) => [
+              styles.deleteButton,
+              pressed && styles.deleteButtonPressed
+            ]}
             onPress={() => setTasks([])} 
-          />
+          >
+            <Text style={styles.deleteButtonText}>Excluir todas as tarefas</Text>
+          </Pressable>
         </View>
 
         <TaskList 
@@ -151,6 +155,31 @@ const styles = StyleSheet.create({
   },
   nativeButtonContainer: {
     marginTop: 16,
+  },
+  deleteButton: {
+    backgroundColor: '#ff4d4d',
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
+    shadowColor: '#ff0000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  deleteButtonPressed: {
+    backgroundColor: '#d9363e',
+    transform: [{ scale: 0.98 }],
+    elevation: 1,
+    shadowOpacity: 0.1,
+  },
+  deleteButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+    letterSpacing: 0.5,
   },
   loaderContainer: {
     position: 'absolute',

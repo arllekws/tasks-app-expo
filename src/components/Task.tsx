@@ -5,10 +5,10 @@ import { Feather, AntDesign } from '@expo/vector-icons';
 interface TaskProps {
   text: string;
   updateMode: () => void;
-  deleteToDo: () => void;
+  deleteTask: () => void;
 }
 
-const Task: React.FC<TaskProps> = ({ text, updateMode, deleteToDo }) => {
+const Task: React.FC<TaskProps> = ({ text, updateMode, deleteTask }) => {
   return (
     <View style={styles.todo}>
       <Text style={styles.text}>{text}</Text>
@@ -16,7 +16,7 @@ const Task: React.FC<TaskProps> = ({ text, updateMode, deleteToDo }) => {
         <TouchableOpacity onPress={updateMode}>
           <Feather name="edit" size={20} color="#fff" style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={deleteToDo}>
+        <TouchableOpacity onPress={deleteTask}>
           <AntDesign name="delete" size={20} color="#fff" style={styles.icon} />
         </TouchableOpacity>
       </View>

@@ -11,7 +11,7 @@ interface TaskItemProps {
 
 const TaskItem: React.FC<TaskItemProps> = ({ text, updateMode, deleteTask }) => {
   return (
-    <View style={styles.todo}>
+    <View style={styles.task}>
       <Text style={styles.text}>{text}</Text>
       <View style={styles.icons}>
         <TouchableOpacity onPress={updateMode} accessibilityRole="button">
@@ -26,7 +26,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ text, updateMode, deleteTask }) => 
 };
 
 const styles = StyleSheet.create({
-  todo: {
+  task: {
     backgroundColor: '#000',
     paddingVertical: 18,
     paddingHorizontal: 20,
