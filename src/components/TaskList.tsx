@@ -5,7 +5,7 @@ import { TaskItem as TaskType } from '../utils/handle-api';
 
 interface TaskListProps {
   tasks: TaskType[];
-  onUpdate: (id: string, text: string) => void;
+  onUpdate: (task: TaskType) => void;
   onDelete: (id: string) => void;
 }
 
@@ -18,9 +18,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onUpdate, onDelete }) => {
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
           <TaskItem
-            id={item._id}
-            text={item.text}
-            updateMode={() => onUpdate(item._id, item.text)}
+            task={item}
+            updateMode={() => onUpdate(item)}
             deleteTask={() => onDelete(item._id)}
           />
         )}

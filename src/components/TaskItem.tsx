@@ -1,18 +1,27 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Feather, AntDesign } from '@expo/vector-icons';
+import { TaskItem as TaskType } from '../utils/handle-api';
 
 interface TaskItemProps {
-  id: string;
-  text: string;
+  task: TaskType;
   updateMode: () => void;
   deleteTask: () => void;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ text, updateMode, deleteTask }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, updateMode, deleteTask }) => {
   return (
     <View style={styles.task}>
-      <Text style={styles.text}>{text}</Text>
+      <View style={styles.contentContainer}>
+        <Text style={[styles.text, !!task.completed && styles.textCompleted]}>
+          {task.text}
+        </Text>
+        {task.dueDate && (
+          <Text style={styles.dateText}>
+            Até: {new Date(task.dueDate).toLocaleDateString()}
+          </Text>
+        )}
+      </View>
       <View style={styles.icons}>
         <TouchableOpacity onPress={updateMode} accessibilityRole="button">
           <Feather name="edit" size={20} color="#fff" style={styles.icon} />
@@ -28,7 +37,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ text, updateMode, deleteTask }) => 
 const styles = StyleSheet.create({
   task: {
     backgroundColor: '#000',
-    paddingVertical: 18,
+    paddingVertical: 14,
     paddingHorizontal: 20,
     borderRadius: 8,
     marginTop: 12,
@@ -36,11 +45,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  contentContainer: {
+    flex: 1,
+    marginRight: 10,
+  },
   text: {
     color: '#fff',
     fontSize: 16,
-    flex: 1,
-    marginRight: 10,
+  },
+  textCompleted: {
+    textDecorationLine: 'line-through',
+    color: '#aaa',
+  },
+  dateText: {
+    color: '#bbb',
+    fontSize: 12,
+    marginTop: 4,
   },
   icons: {
     flexDirection: 'row',
