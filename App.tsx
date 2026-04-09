@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Platform, StatusBar as RNStatusBar, Image, Pressable, ActivityIndicator, Modal } from 'react-native';
+import { StyleSheet, Text, Button, View, TextInput, TouchableOpacity, SafeAreaView, Platform, StatusBar as RNStatusBar, Image, Pressable, ActivityIndicator, Modal } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Checkbox from 'expo-checkbox';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import TaskList from './src/components/TaskList';
 import { addTask, deleteTask, getAllTasks, updateTask, TaskItem } from './src/utils/handle-api';
 import globalStyles from './src/styles/global';
+import AboutScreen from './src/components/AboutScreen';
 
 export default function App() {
   const [tasks, setTasks] = useState<TaskItem[]>([]);
@@ -21,6 +22,7 @@ export default function App() {
 
   const [filter, setFilter] = useState<'all' | 'completed' | 'pending'>('all');
   const [priority, setPriority] = useState<'Baixa' | 'Média' | 'Alta'>('Baixa');
+  const [aboutVisible, setAboutVisible] = useState(false);
 
   useEffect(() => {
     getAllTasks(setTasks, setLoading);
@@ -118,6 +120,7 @@ export default function App() {
             <Text style={styles.actionButtonText}>Excluir todas</Text>
           </Pressable>
         </View>
+        <Button title="Sobre o App" onPress={() => setAboutVisible(true)} />
 
         <TaskList 
           tasks={tasks} 
@@ -227,6 +230,7 @@ export default function App() {
           </View>
         </View>
       </Modal>
+      <AboutScreen visible={aboutVisible} onClose={() => setAboutVisible(false)} />
 
       <StatusBar style="auto" />
     </SafeAreaView>

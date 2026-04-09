@@ -3,6 +3,8 @@
     "name": "tasks-app-expo",
     "slug": "tasks-app-expo",
     "version": "1.0.0",
+    "android.package": "com.arllessongomes.tasksapp",
+    "ios.bundleIdentifier": "com.arllessongomes.tasksapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
