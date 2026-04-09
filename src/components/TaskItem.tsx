@@ -16,11 +16,17 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, updateMode, deleteTask }) => 
         <Text style={[styles.text, !!task.completed && styles.textCompleted]}>
           {task.text}
         </Text>
-        {task.dueDate && (
-          <Text style={styles.dateText}>
-            Até: {new Date(task.dueDate).toLocaleDateString()}
-          </Text>
-        )}
+        {task.dueDate && (() => {
+          const due = new Date(task.dueDate!);
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+        const isOverdue = due < today;
+  return (
+    <Text style={[styles.dateText, isOverdue ? styles.dateOverdue : styles.dateOk]}>
+      Até: {due.toLocaleDateString()}
+    </Text>
+  );
+})()}
       </View>
       <View style={styles.icons}>
         <TouchableOpacity onPress={updateMode} accessibilityRole="button">
@@ -68,7 +74,17 @@ const styles = StyleSheet.create({
   },
   icon: {
     padding: 2,
+  },dateOverdue: {
+    color: '#e53935',
+    fontSize: 12,
+    marginTop: 4,
   },
+  dateOk: {
+    color: '#43a047',
+    fontSize: 12,
+    marginTop: 4,
+  },
+
 });
 
 export default TaskItem;
