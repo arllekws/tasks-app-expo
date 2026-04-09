@@ -5,6 +5,7 @@ import Checkbox from 'expo-checkbox';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import TaskList from './src/components/TaskList';
 import { addTask, deleteTask, getAllTasks, updateTask, TaskItem } from './src/utils/handle-api';
+import globalStyles from './src/styles/global';
 
 export default function App() {
   const [tasks, setTasks] = useState<TaskItem[]>([]);
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   counterText: {
-    fontSize: 16,
+    fontSize: globalStyles.bodyFontSize, 
     color: '#666',
   },
   actionButtonsContainer: {
@@ -253,8 +254,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   actionButtonAdd: {
-    backgroundColor: '#000',
-    shadowColor: '#000',
+    backgroundColor: globalStyles.primaryColor,
+    shadowColor: globalStyles.primaryColor,
   },
   actionButtonAddPressed: {
     backgroundColor: '#333',
