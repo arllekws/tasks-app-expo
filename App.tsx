@@ -19,6 +19,9 @@ export default function App() {
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  const [filter, setFilter] = useState<'all' | 'completed' | 'pending'>('all');
+  const [priority, setPriority] = useState<'Baixa' | 'Média' | 'Alta'>('Baixa');
+
   useEffect(() => {
     getAllTasks(setTasks, setLoading);
   }, []);
@@ -54,6 +57,11 @@ export default function App() {
     setShowDatePicker(false);
     if (selectedDate) setDueDate(selectedDate);
   };
+  const filteredTasks = tasks.filter(task => {
+    if (filter === 'completed') return task.completed;
+    if (filter === 'pending') return !task.completed;
+    return true;
+  });
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -69,6 +77,23 @@ export default function App() {
         <View style={styles.counterContainer}>
           <Text style={styles.counterText}>Total de Tarefas: {tasks.length}</Text>
         </View>
+        <View style={styles.filterContainer}>
+  {(['all', 'completed', 'pending'] as const).map((f) => {
+    const labels = { all: 'Todas', completed: 'Concluídas', pending: 'Pendentes' };
+    const isActive = filter === f;
+    return (
+      <TouchableOpacity
+        key={f}
+        style={[styles.filterBtn, isActive && styles.filterBtnActive]}
+        onPress={() => setFilter(f)}
+      >
+        <Text style={[styles.filterBtnText, isActive && styles.filterBtnTextActive]}>
+          {labels[f]}
+        </Text>
+      </TouchableOpacity>
+    );
+  })}
+</View>
 
         <View style={styles.actionButtonsContainer}>
           <Pressable 
@@ -170,6 +195,22 @@ export default function App() {
                 />
               </View>
             </View>
+            <View style={styles.fieldRow}>
+  <Text style={styles.fieldLabel}>Prioridade:</Text>
+  <View style={{ flexDirection: 'row', gap: 8, marginLeft: 16 }}>
+    {(['Baixa', 'Média', 'Alta'] as const).map((p) => (
+      <TouchableOpacity
+        key={p}
+        style={[styles.priorityBtn, priority === p && styles.priorityBtnActive]}
+        onPress={() => setPriority(p)}
+      >
+        <Text style={[styles.priorityBtnText, priority === p && styles.priorityBtnTextActive]}>
+          {p}
+        </Text>
+      </TouchableOpacity>
+    ))}
+  </View>
+</View>
 
             <View style={styles.modalActions}>
               <TouchableOpacity style={styles.modalCancelBtn} onPress={resetForm}>
@@ -218,6 +259,48 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',
+  },
+  filterContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 12,
+  },
+  filterBtn: {
+    borderWidth: 1,
+    borderColor: '#000',
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    borderRadius: 6,
+  },
+  filterBtnActive: {
+    backgroundColor: '#000',
+  },
+  filterBtnText: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 13,
+  },
+  filterBtnTextActive: {
+    color: '#fff',
+  },
+  priorityBtn: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+  },
+  priorityBtnActive: {
+    backgroundColor: '#000',
+    borderColor: '#000',
+  },
+  priorityBtnText: {
+    color: '#333',
+    fontSize: 13,
+  },
+  priorityBtnTextActive: {
+    color: '#fff',
   },
   counterContainer: {
     marginTop: 8,
